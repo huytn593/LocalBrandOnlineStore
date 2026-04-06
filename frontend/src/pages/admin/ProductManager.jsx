@@ -132,7 +132,7 @@ const ProductManager = () => {
     <div>
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-2xl font-bold">Quản lý sản phẩm</h2>
-        <button onClick={() => openModal()} className="btn btn-primary flex items-center">
+        <button data-testid="add-product-btn" onClick={() => openModal()} className="btn btn-primary flex items-center">
           <Plus size={18} className="mr-2" /> Thêm sản phẩm
         </button>
       </div>
@@ -211,13 +211,14 @@ const ProductManager = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="md:col-span-2">
                     <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Tên sản phẩm</label>
-                    <input type="text" required value={currentProduct.name} onChange={e => setCurrentProduct({...currentProduct, name: e.target.value})} className="product-input" placeholder="VD: Hoodie Oversize Essential..." />
+                    <input data-testid="product-name" type="text" required value={currentProduct.name} onChange={e => setCurrentProduct({...currentProduct, name: e.target.value})} className="product-input" placeholder="VD: Hoodie Oversize Essential..." />
                     </div>
                     
                     <div>
                     <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Giá niêm yết (₫)</label>
                     <div className="relative">
                       <input 
+                        data-testid="product-price"
                         type="text" 
                         required 
                         value={formattedPrice} 
@@ -232,7 +233,7 @@ const ProductManager = () => {
 
                     <div>
                     <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Số lượng tồn kho</label>
-                    <input type="text" required value={currentProduct.stock} onChange={e => setCurrentProduct({...currentProduct, stock: e.target.value.replace(/^0+(?=\d)/, '')})} className="product-input" placeholder="0" />
+                    <input data-testid="product-stock" type="text" required value={currentProduct.stock} onChange={e => setCurrentProduct({...currentProduct, stock: e.target.value.replace(/^0+(?=\d)/, '')})} className="product-input" placeholder="0" />
                     </div>
 
                     <div className="md:col-span-2">
@@ -245,7 +246,7 @@ const ProductManager = () => {
 
                     <div className="md:col-span-2">
                     <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Mô tả sản phẩm</label>
-                    <textarea required rows="4" value={currentProduct.description} onChange={e => setCurrentProduct({...currentProduct, description: e.target.value})} className="product-input resize-none" placeholder="Nhập mô tả chi tiết về chất liệu, form dáng, bảng size..." />
+                    <textarea data-testid="product-description" required rows="4" value={currentProduct.description} onChange={e => setCurrentProduct({...currentProduct, description: e.target.value})} className="product-input resize-none" placeholder="Nhập mô tả chi tiết về chất liệu, form dáng, bảng size..." />
                     </div>
                 </div>
 
@@ -283,7 +284,7 @@ const ProductManager = () => {
                   <button type="button" onClick={() => setShowModal(false)} className="px-6 py-2.5 rounded-lg border border-gray-200 text-gray-600 font-bold hover:bg-gray-50 transition-colors">
                     Hủy
                   </button>
-                  <button type="submit" className="px-10 py-2.5 rounded-lg bg-black text-white font-bold hover:bg-gray-900 shadow-lg shadow-black/10 transition-all active:scale-95">
+                  <button data-testid="submit-product" type="submit" className="px-10 py-2.5 rounded-lg bg-black text-white font-bold hover:bg-gray-900 shadow-lg shadow-black/10 transition-all active:scale-95">
                     {isEditing ? 'Cập nhật sản phẩm' : 'Đăng sản phẩm'}
                   </button>
                 </div>

@@ -72,7 +72,7 @@ const CategoryManager = () => {
     <div>
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-2xl font-bold">Quản lý danh mục</h2>
-        <button onClick={() => openModal()} className="btn btn-primary flex items-center">
+        <button data-testid="add-category-btn" onClick={() => openModal()} className="btn btn-primary flex items-center">
           <Plus size={18} className="mr-2" /> Thêm danh mục
         </button>
       </div>
@@ -122,6 +122,7 @@ const CategoryManager = () => {
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Tên danh mục</label>
                 <input 
+                  data-testid="category-name"
                   type="text" 
                   required 
                   value={currentCategory.name} 
@@ -144,7 +145,7 @@ const CategoryManager = () => {
                 <button type="button" onClick={() => setShowModal(false)} className="btn bg-gray-200 hover:bg-gray-300 text-black px-6">
                   Hủy
                 </button>
-                <button type="submit" className="btn btn-primary px-8">
+                <button data-testid="submit-category" type="submit" className="btn btn-primary px-8">
                   {isEditing ? 'Lưu thay đổi' : 'Lưu danh mục'}
                 </button>
               </div>
