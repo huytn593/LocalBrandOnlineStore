@@ -31,7 +31,7 @@ const Navbar = () => {
             <Link to="/cart" className="relative text-gray-700 hover:text-black transition-colors">
               <ShoppingCart size={24} />
               {itemCount > 0 && (
-                <span data-testid="cart-badge" className="absolute -top-2 -right-2 bg-black text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                <span className="absolute -top-2 -right-2 bg-black text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
                   {itemCount}
                 </span>
               )}

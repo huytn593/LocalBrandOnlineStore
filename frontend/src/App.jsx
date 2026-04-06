@@ -43,7 +43,7 @@ function App() {
   return (
     <AuthProvider>
       <CartProvider>
-        <BrowserRouter basename={import.meta.env.BASE_URL}>
+        <BrowserRouter>
           <div className="flex flex-col min-h-screen bg-white text-black font-sans">
             <Toaster position="top-right" />
             <Navbar />

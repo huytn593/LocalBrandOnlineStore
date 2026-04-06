@@ -73,7 +73,7 @@ const OrderManager = () => {
             {loading ? (
               <tr><td colSpan="5" className="text-center py-4">Đang tải...</td></tr>
             ) : orders.map(order => (
-              <tr data-testid="order-row" key={order.id} className="hover:bg-gray-50">
+              <tr key={order.id} className="hover:bg-gray-50">
                 <td className="px-6 py-4">
                   <div className="text-sm font-medium text-gray-900 border-b border-gray-100 pb-1 mb-1">Mã ĐH: {order.id.substring(0,8)}...</div>
                   <div className="text-sm text-gray-500">Mã KH: {order.userId}</div>

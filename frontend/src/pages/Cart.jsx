@@ -55,7 +55,6 @@ const Cart = () => {
                     <div>
                       <h3 className="font-semibold text-gray-900 line-clamp-2">{item.name || item.productId}</h3>
                       <button 
-                        data-testid="remove-item-btn"
                         onClick={() => removeFromCart(item.productId)}
                         className="text-sm text-red-500 hover:text-red-700 mt-2 flex items-center"
                       >
@@ -116,7 +115,6 @@ const Cart = () => {
             </div>
             
             <button 
-              data-testid="checkout-button"
               onClick={() => navigate('/checkout')}
               className="w-full btn btn-primary py-4 text-sm tracking-widest uppercase"
             >
