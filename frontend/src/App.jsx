@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, HashRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 
 // Contexts
@@ -40,12 +40,14 @@ import CategoryManager from './pages/admin/CategoryManager';
 import OrderManager from './pages/admin/OrderManager';
 
 function App() {
+  const Router = import.meta.env.PROD ? HashRouter : BrowserRouter;
   const routerBasename = import.meta.env.BASE_URL === '/' ? undefined : import.meta.env.BASE_URL;
+  const routerProps = import.meta.env.PROD ? {} : { basename: routerBasename };
 
   return (
     <AuthProvider>
       <CartProvider>
-        <BrowserRouter basename={routerBasename}>
+        <Router {...routerProps}>
           <div className="flex flex-col min-h-screen bg-white text-black font-sans">
             <Toaster position="top-right" />
             <Navbar />
@@ -71,11 +73,7 @@ function App() {
                     <Checkout />
                   </ProtectedRoute>
                 } />
-                <Route path="/payment-result" element={
-                  <ProtectedRoute>
-                    <PaymentResult />
-                  </ProtectedRoute>
-                } />
+                <Route path="/payment-result" element={<PaymentResult />} />
                 <Route path="/profile" element={
                   <ProtectedRoute>
                     <Profile />
@@ -112,7 +110,7 @@ function App() {
 
             <Footer />
           </div>
-        </BrowserRouter>
+        </Router>
       </CartProvider>
     </AuthProvider>
   );

@@ -1,11 +1,10 @@
 import { useEffect, useState } from 'react';
-import { useSearchParams, useNavigate, Link } from 'react-router-dom';
+import { useSearchParams, Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { CheckCircle, XCircle } from 'lucide-react';
 
 const PaymentResult = () => {
   const [searchParams] = useSearchParams();
-  const navigate = useNavigate();
   const { clearCart } = useCart();
   const [status, setStatus] = useState('');
   const [message, setMessage] = useState('');

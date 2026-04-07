@@ -40,6 +40,9 @@ public class PaymentController {
     @Value("${app.frontend-url:http://localhost:5173}")
     private String frontendBaseUrl;
 
+    @Value("${app.frontend-use-hash-routing:false}")
+    private boolean frontendUseHashRouting;
+
     @Value("${vnpay.frontendReturnPath:/payment-result}")
     private String frontendReturnPath;
 
@@ -202,7 +205,17 @@ public class PaymentController {
             return frontendReturnUrlOverride.trim();
         }
 
-        return joinUrl(frontendBaseUrl, frontendReturnPath);
+        return joinUrl(frontendBaseUrl, normalizeFrontendReturnPath());
+    }
+
+    private String normalizeFrontendReturnPath() {
+        String normalizedPath = frontendReturnPath.startsWith("/") ? frontendReturnPath : "/" + frontendReturnPath;
+
+        if (!frontendUseHashRouting || normalizedPath.startsWith("/#/")) {
+            return normalizedPath;
+        }
+
+        return "/#" + normalizedPath;
     }
 
     private String joinUrl(String baseUrl, String path) {
