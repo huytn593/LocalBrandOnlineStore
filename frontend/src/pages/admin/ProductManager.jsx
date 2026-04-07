@@ -4,6 +4,7 @@ import api from '../../api/axios';
 import { formatPriceInput, parsePriceInput, displayVNPrice } from '../../utils/priceFormatter';
 import { Pencil, Trash2, Plus, Image as ImageIcon, X } from 'lucide-react';
 import toast from 'react-hot-toast';
+import { resolveAssetUrl } from '../../utils/api';
 
 const ProductManager = () => {
   const [products, setProducts] = useState([]);
@@ -159,7 +160,7 @@ const ProductManager = () => {
                     <div className="flex items-center">
                       <div className="h-12 w-12 flex-shrink-0 bg-gray-50 rounded border border-gray-100 overflow-hidden">
                         {product.images && product.images.length > 0 ? (
-                          <img className="h-full w-full object-cover" src={product.images[0].startsWith('http') ? product.images[0] : `http://localhost:8080/uploads/products/${product.images[0]}`} alt="" />
+                          <img className="h-full w-full object-cover" src={resolveAssetUrl(product.images[0], 'products')} alt="" />
                         ) : (
                           <ImageIcon className="h-6 w-6 m-3 text-gray-300" />
                         )}
@@ -256,7 +257,7 @@ const ProductManager = () => {
                    <div className="grid grid-cols-4 sm:grid-cols-6 gap-3">
                       {currentProduct.images?.map((img, idx) => (
                          <div key={idx} className="relative aspect-square border border-gray-100 rounded-lg overflow-hidden group">
-                            <img src={img.startsWith('http') ? img : `http://localhost:8080/uploads/products/${img}`} className="w-full h-full object-cover" alt="" />
+                            <img src={resolveAssetUrl(img, 'products')} className="w-full h-full object-cover" alt="" />
                             <button type="button" onClick={() => removeImage(idx)} className="absolute top-1 right-1 bg-black/50 hover:bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity">
                                <X size={14} />
                             </button>

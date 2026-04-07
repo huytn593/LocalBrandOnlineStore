@@ -2,6 +2,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { formatPrice } from '../utils/formatters';
 import { Trash2, ShoppingBag } from 'lucide-react';
+import { resolveAssetUrl } from '../utils/api';
 
 const Cart = () => {
   const { cartItems, removeFromCart, updateQuantity, cartTotal, itemCount } = useCart();
@@ -44,7 +45,7 @@ const Cart = () => {
                     <div className="w-20 h-24 bg-gray-100 rounded shrink-0 overflow-hidden flex items-center justify-center">
                       {item.imageUrl ? (
                         <img 
-                          src={item.imageUrl.startsWith('http') ? item.imageUrl : `http://localhost:8080${item.imageUrl}`} 
+                          src={resolveAssetUrl(item.imageUrl)} 
                           alt={item.name} 
                           className="w-full h-full object-cover"
                         />

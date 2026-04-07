@@ -133,7 +133,7 @@ test.describe('Kiểm thử Giỏ hàng & Đặt hàng (Order & Cart)', () => {
           contentType: 'application/json',
           body: JSON.stringify({
             success: true,
-            data: '/LocalBrandOnlineStore/payment-result?vnp_ResponseCode=00'
+            data: '/payment-result?vnp_ResponseCode=00'
           })
         });
       });

@@ -8,6 +8,7 @@ import { formatPrice, formatDate } from '../utils/formatters';
 import RatingStars from '../components/RatingStars';
 import LoadingSpinner from '../components/LoadingSpinner';
 import toast from 'react-hot-toast';
+import { resolveAssetUrl } from '../utils/api';
 
 const ProductDetail = () => {
   const { id } = useParams();
@@ -86,8 +87,7 @@ const ProductDetail = () => {
   const fallbackImage = 'https://via.placeholder.com/600x800?text=No+Image';
   const getImageUrl = (img) => {
     if (!img) return fallbackImage;
-    if (img.startsWith('http')) return img;
-    return `http://localhost:8080/uploads/products/${img}`;
+    return resolveAssetUrl(img, 'products');
   };
   const images = product.images?.length > 0 ? product.images : [null];
 

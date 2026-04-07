@@ -3,6 +3,7 @@ import { formatPrice } from '../utils/formatters';
 import RatingStars from './RatingStars';
 import { ShoppingCart } from 'lucide-react';
 import { useCart } from '../context/CartContext';
+import { resolveAssetUrl } from '../utils/api';
 
 const ProductCard = ({ product }) => {
   const { addToCart } = useCart();
@@ -11,7 +12,7 @@ const ProductCard = ({ product }) => {
   const fallbackImage = 'https://via.placeholder.com/400x500?text=No+Image';
   const firstImage = product.images && product.images.length > 0 ? product.images[0] : null;
   const imgUrl = firstImage 
-    ? (firstImage.startsWith('http') ? firstImage : `http://localhost:8080/uploads/products/${firstImage}`) 
+    ? resolveAssetUrl(firstImage, 'products')
     : fallbackImage;
 
   return (

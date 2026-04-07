@@ -3,6 +3,7 @@ import { ShoppingCart, LogOut, User as UserIcon, Shield } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
 import { useState } from 'react';
+import { resolveAssetUrl } from '../utils/api';
 
 const Navbar = () => {
   const { user, isAuthenticated, isAdmin, logout } = useAuth();
@@ -45,7 +46,7 @@ const Navbar = () => {
                 >
                   <div className="w-8 h-8 bg-gray-100 border border-gray-200 rounded-full flex items-center justify-center font-bold overflow-hidden">
                     {user?.avatarUrl ? (
-                      <img src={user.avatarUrl.startsWith('http') ? user.avatarUrl : `http://localhost:8080${user.avatarUrl}`} alt={user.name} className="w-full h-full object-cover" />
+                      <img src={resolveAssetUrl(user.avatarUrl)} alt={user.name} className="w-full h-full object-cover" />
                     ) : (
                       <img src="/default-avatar.png" alt={user?.name || 'User'} className="w-full h-full object-cover" />
                     )}

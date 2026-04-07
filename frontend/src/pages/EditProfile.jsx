@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import api from '../api/axios';
 import { Camera, ChevronLeft, Save } from 'lucide-react';
 import toast from 'react-hot-toast';
+import { resolveAssetUrl } from '../utils/api';
 
 const EditProfile = () => {
   const { user, updateUser } = useAuth();
@@ -33,12 +34,7 @@ const EditProfile = () => {
 
     setUploading(true);
     try {
-      const token = localStorage.getItem('token');
-      const res = await api.put('/users/avatar', formData, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
+      const res = await api.put('/users/avatar', formData);
       if (res.data.success) {
         const newAvatarUrl = res.data.data;
         updateUser({ ...user, avatarUrl: newAvatarUrl });
@@ -90,7 +86,7 @@ const EditProfile = () => {
             <div className="relative group cursor-pointer" onClick={handleAvatarClick}>
               <div className="w-40 h-40 bg-gray-50 rounded-full border-4 border-white shadow-xl overflow-hidden flex items-center justify-center transition-transform group-hover:scale-105">
                 {user?.avatarUrl ? (
-                  <img src={user.avatarUrl.startsWith('http') ? user.avatarUrl : `http://localhost:8080${user.avatarUrl}`} alt={user?.name} className="w-full h-full object-cover" />
+                  <img src={resolveAssetUrl(user.avatarUrl)} alt={user?.name} className="w-full h-full object-cover" />
                 ) : (
                   <img src="/default-avatar.png" alt={user?.name || 'User'} className="w-full h-full object-cover" />
                 )}
