@@ -7,6 +7,7 @@ import { formatPrice, formatDate } from '../utils/formatters';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { Camera, Package2, ShieldCheck, Mail, User as UserIcon } from 'lucide-react';
 import toast from 'react-hot-toast';
+import { resolveAssetUrl } from '../utils/api';
 
 const Profile = () => {
   const { user } = useAuth();
@@ -55,7 +56,7 @@ const Profile = () => {
         <div className="relative group">
           <div className="w-32 h-32 bg-gray-50 rounded-full border-2 border-white shadow-md overflow-hidden flex items-center justify-center ring-4 ring-gray-50 transition-all">
             {user?.avatarUrl ? (
-              <img src={user.avatarUrl.startsWith('http') ? user.avatarUrl : `http://localhost:8080${user.avatarUrl}`} alt={user.name} className="w-full h-full object-cover" />
+              <img src={resolveAssetUrl(user.avatarUrl)} alt={user.name} className="w-full h-full object-cover" />
             ) : (
               <img src="/default-avatar.png" alt={user?.name || 'User'} className="w-full h-full object-cover" />
             )}

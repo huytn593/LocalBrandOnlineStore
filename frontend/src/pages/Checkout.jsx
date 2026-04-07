@@ -5,6 +5,7 @@ import { orderService } from '../services/orderService';
 import { formatPrice } from '../utils/formatters';
 import api from '../api/axios';
 import toast from 'react-hot-toast';
+import { buildPaymentMockUrl } from '../utils/payment';
 
 const Checkout = () => {
   const { cartItems, cartTotal, clearCart } = useCart();
@@ -45,7 +46,7 @@ const Checkout = () => {
             toast.error('Gặp lỗi khi tạo link VNPAY');
           }
         } else if (paymentMethod === 'VNPAY_MOCK') {
-            window.location.href = `http://localhost:8080/api/payment/mock-success?orderId=${res.data.id}`;
+            window.location.href = buildPaymentMockUrl(res.data.id);
             return;
         } else {
           toast.success('Đặt hàng thành công!');

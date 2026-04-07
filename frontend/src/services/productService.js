@@ -31,13 +31,8 @@ export const productService = {
   uploadImage: async (file) => {
     const formData = new FormData();
     formData.append('file', file);
-    
-    const token = localStorage.getItem('token');
-    const response = await api.post('/admin/products/upload-image', formData, {
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    });
+
+    const response = await api.post('/admin/products/upload-image', formData);
     return response.data;
   }
 };

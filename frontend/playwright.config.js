@@ -8,9 +8,23 @@ export default defineConfig({
   workers: process.env.CI ? 1 : undefined,
   reporter: 'html',
   use: {
-    baseURL: 'http://localhost:5173/LocalBrandOnlineStore/',
+    baseURL: 'http://localhost:5173/',
     trace: 'on-first-retry',
   },
+  webServer: [
+    {
+      command: '..\\mvnw.cmd -f ..\\pom.xml spring-boot:run',
+      url: 'http://localhost:8080/',
+      reuseExistingServer: !process.env.CI,
+      timeout: 180000,
+    },
+    {
+      command: 'npm run dev -- --host localhost --port 5173',
+      url: 'http://localhost:5173/',
+      reuseExistingServer: !process.env.CI,
+      timeout: 120000,
+    }
+  ],
   projects: [
     {
       name: 'chromium',
