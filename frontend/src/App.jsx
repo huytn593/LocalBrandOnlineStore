@@ -40,10 +40,12 @@ import CategoryManager from './pages/admin/CategoryManager';
 import OrderManager from './pages/admin/OrderManager';
 
 function App() {
+  const routerBasename = import.meta.env.BASE_URL === '/' ? undefined : import.meta.env.BASE_URL;
+
   return (
     <AuthProvider>
       <CartProvider>
-        <BrowserRouter>
+        <BrowserRouter basename={routerBasename}>
           <div className="flex flex-col min-h-screen bg-white text-black font-sans">
             <Toaster position="top-right" />
             <Navbar />

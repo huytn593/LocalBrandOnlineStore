@@ -5,6 +5,26 @@
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>LocalBrand Online Store</title>
+    <script>
+      (function () {
+        var params = new URLSearchParams(window.location.search);
+        var redirect = params.get('p');
+        if (!redirect) {
+          return;
+        }
+
+        params.delete('p');
+        var decodedPath = decodeURIComponent(redirect).replace(/~and~/g, '&');
+        var restoredSearch = params.toString();
+        var updatedUrl =
+          window.location.origin +
+          decodedPath +
+          (restoredSearch ? '?' + restoredSearch : '') +
+          (window.location.hash || '');
+
+        window.history.replaceState(null, '', updatedUrl);
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>
