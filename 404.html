@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>LocalBrand Online Store</title>
+    <script>
+      (function () {
+        var pathname = window.location.pathname;
+        var projectPath = '/LocalBrandOnlineStore/';
+        var normalizedProjectPath = projectPath.endsWith('/') ? projectPath : projectPath + '/';
+        var routePath = pathname.startsWith(normalizedProjectPath)
+          ? pathname.slice(normalizedProjectPath.length)
+          : pathname.replace(/^\//, '');
+        var search = window.location.search ? window.location.search.replace(/^\?/, '&') : '';
+        var hash = window.location.hash || '';
+        var targetPath = '/LocalBrandOnlineStore/' + (routePath ? '?p=/' + routePath.replace(/&/g, '~and~') : '');
+        window.location.replace(window.location.origin + targetPath + search + hash);
+      })();
+    </script>
+  </head>
+  <body></body>
+</html>
