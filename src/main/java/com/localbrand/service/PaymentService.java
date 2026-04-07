@@ -26,7 +26,13 @@ public class PaymentService {
     private String vnp_PayUrl;
 
     @Value("${vnpay.returnUrl}")
-    private String vnp_ReturnUrl;
+    private String vnpReturnUrlOverride;
+
+    @Value("${app.base-url:http://localhost:8080}")
+    private String appBaseUrl;
+
+    @Value("${vnpay.returnPath:/api/payment/vnpay_return}")
+    private String vnpReturnPath;
 
     public String createPaymentUrl(String orderId, double amount, String ipAddress) {
         // VNPAY amount is multiplied by 100 to remove decimals
@@ -43,7 +49,7 @@ public class PaymentService {
         vnp_Params.put("vnp_OrderInfo", "Thanh toan don hang " + orderId);
         vnp_Params.put("vnp_OrderType", "other");
         vnp_Params.put("vnp_Locale", "vn");
-        vnp_Params.put("vnp_ReturnUrl", vnp_ReturnUrl);
+        vnp_Params.put("vnp_ReturnUrl", resolveReturnUrl());
         vnp_Params.put("vnp_IpAddr", ipAddress);
 
         ZonedDateTime now = ZonedDateTime.now(VNPAY_ZONE);
@@ -122,5 +128,19 @@ public class PaymentService {
 
         String signValue = VNPayConfig.hmacSHA512(vnp_HashSecret, hashData.toString());
         return signValue.equals(vnp_SecureHash);
+    }
+
+    private String resolveReturnUrl() {
+        if (vnpReturnUrlOverride != null && !vnpReturnUrlOverride.isBlank()) {
+            return vnpReturnUrlOverride.trim();
+        }
+
+        return joinUrl(appBaseUrl, vnpReturnPath);
+    }
+
+    private String joinUrl(String baseUrl, String path) {
+        String normalizedBaseUrl = baseUrl.endsWith("/") ? baseUrl.substring(0, baseUrl.length() - 1) : baseUrl;
+        String normalizedPath = path.startsWith("/") ? path : "/" + path;
+        return normalizedBaseUrl + normalizedPath;
     }
 }
