@@ -35,7 +35,13 @@ public class PaymentController {
     private final PaymentTransactionRepository paymentTransactionRepository;
 
     @Value("${vnpay.frontendReturnUrl}")
-    private String frontendReturnUrl;
+    private String frontendReturnUrlOverride;
+
+    @Value("${app.frontend-url:http://localhost:5173}")
+    private String frontendBaseUrl;
+
+    @Value("${vnpay.frontendReturnPath:/payment-result}")
+    private String frontendReturnPath;
 
     @GetMapping("/create_payment")
     public ResponseEntity<ApiResponse<String>> createPayment(@RequestParam String orderId, HttpServletRequest request) {
@@ -73,7 +79,7 @@ public class PaymentController {
         String transactionId = request.getParameter("vnp_TransactionNo");
         String responseCode = request.getParameter("vnp_ResponseCode");
 
-        String redirectUrl = frontendReturnUrl + "?orderId=" + (orderId != null ? orderId : "");
+        String redirectUrl = buildFrontendRedirectUrl(orderId);
 
         if (!verify) {
             // Invalid Signature
@@ -143,7 +149,7 @@ public class PaymentController {
     @GetMapping("/mock-success")
     public void mockSuccess(@RequestParam String orderId, HttpServletResponse response) throws IOException {
         Order order = orderRepository.findById(orderId).orElse(null);
-        String redirectUrl = frontendReturnUrl + "?orderId=" + (orderId != null ? orderId : "");
+        String redirectUrl = buildFrontendRedirectUrl(orderId);
         
         if (order == null) {
             response.sendRedirect(redirectUrl + "&status=FAILED&message=OrderNotFound");
@@ -185,5 +191,23 @@ public class PaymentController {
             }
         }
         return remoteAddr;
+    }
+
+    private String buildFrontendRedirectUrl(String orderId) {
+        return resolveFrontendReturnUrl() + "?orderId=" + (orderId != null ? orderId : "");
+    }
+
+    private String resolveFrontendReturnUrl() {
+        if (frontendReturnUrlOverride != null && !frontendReturnUrlOverride.isBlank()) {
+            return frontendReturnUrlOverride.trim();
+        }
+
+        return joinUrl(frontendBaseUrl, frontendReturnPath);
+    }
+
+    private String joinUrl(String baseUrl, String path) {
+        String normalizedBaseUrl = baseUrl.endsWith("/") ? baseUrl.substring(0, baseUrl.length() - 1) : baseUrl;
+        String normalizedPath = path.startsWith("/") ? path : "/" + path;
+        return normalizedBaseUrl + normalizedPath;
     }
 }
